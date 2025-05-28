@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload CSV - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      min-height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #1b3b36;
+      color: white;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #00bcd4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 120px auto 50px; /* margin-top adjusted to avoid header overlap */
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #1b3b36;
+      margin-bottom: 30px;
+    }
+
+    form input[type="file"] {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    form button {
+      background-color: #1b3b36;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    form button:hover {
+      background-color: #004d40;
+    }
+
+    .text-success{
+      color: green;
+      margin-bottom: 10px;
+    }
+
+    .text-danger{
+      color: red;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Admin Dashboard</h1>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('adm_dash') }}">Dashboard</a></li>
+      <li><a href="{{ url_for('view_students') }}">View Students</a></li>
+      <li><a href="{{ url_for('adm_rooms') }}">Rooms</a></li>
+      <li><a href="{{ url_for('view_applications') }}">Applications</a></li>
+      <li><a href="{{ url_for('adm_rc') }}">Manage Requests</a></li>
+      <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
+      <li><a href="{{ url_for('adm_upload') }}">Upload CSV</a></li>
+      <li><a href="{{ url_for('adm_logout') }}">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>Upload CSV File</h2>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="{{ url_for('adm_upload') }}" enctype="multipart/form-data">
+    <input type="file" name="csv_file" accept=".csv,.xls,.xlsx" required />
+    <button type="submit">Upload</button>
+  </form>
+
+</div>
+
+</body>
+</html>

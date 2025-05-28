@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JNTUHCES Hostel Allocation System - Manage and book hostel rooms efficiently.">
+    <title>JNTUHCES Hostel</title>
+    <style>
+        html, body{
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: #2c3e50;
+            color: rgb(246, 248, 250);
+            padding: 15px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .hero {
+            background: #2c3e50 url('/static/images/hostel.jpg') no-repeat center 50%/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            border-radius: 10px;
+        }
+        .auth-buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #c0392b;
+        }
+        .section {
+            padding: 50px;
+            text-align: center;
+        }
+        .section h2 {
+            color: #2c3e50;
+        }
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HOSTEL ROOM ALLOCATION</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('rooms')}}">Rooms</a></li>
+                <li><a href="{{ url_for('feedbacks') }}">Feedback</a></li>
+                <li><a href="{{ url_for('adm_sign') }}">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <div class="overlay">
+            <h2>WELCOME TO JNTUHCES HOSTEL</h2>
+            <div class="auth-buttons">
+                <a href="{{ url_for('stu_signup') }}" class="btn">Sign Up</a>
+                <a href="{{ url_for('stu_login') }}" class="btn">Sign In</a>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>

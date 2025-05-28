@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #1b3b36;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00bcd4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1b3b36;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            line-height: 1.8;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .info strong {
+            color: #1b3b36;
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+            background-color: #d9534f;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<header>
+    <h1>Student Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('stu_dash') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('stu_edit') }}">Edit Details</a></li>
+            <li><a href="{{ url_for('apply_room') }}">Apply for Room</a></li>
+            <li><a href="{{ url_for('change_room') }}">Change Room</a></li>
+            <li><a href="{{ url_for('stu_logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Welcome, {{ student.name }}</h2>
+    <div class="info">
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Phone:</strong> {{ student.phone }}</p>
+        <p><strong>Branch:</strong> {{ student.branch }}</p>
+        <p><strong>Year:</strong> {{ student.year }}</p>
+        <p><strong>Room Number:</strong> 
+            {% if student.room_number %}
+                {{ student.room_number }}
+            {% else %}
+                Not Allocated
+            {% endif %}
+</p>
+
+        </p>
+    </div>
+    <form method="post" action="{{ url_for('stu_logout') }}">
+        <button class="logout-btn">Logout</button>
+    </form>
+</div>
+
+</body>
+</html>

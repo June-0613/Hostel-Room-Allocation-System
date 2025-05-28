@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Sign-Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* General page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Centered container */
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        /* Form elements */
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input, select {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Password field container */
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-container input {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .password-container i {
+            position: absolute;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #007BFF;
+        }
+
+        button {
+            background: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Error message styling */
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Student Sign-Up</h2>
+        <form id="signupForm" action="{{ url_for('stu_signup') }}" method="POST">
+            <label for="admission">Admission Number</label>
+            <input type="text" id="admission" name="admission_no" placeholder="4-digit Admission No." required>
+            <span id="admissionError" class="error"></span>
+
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" placeholder="10-digit Phone No." required>
+            <span id="phoneError" class="error"></span>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+
+            <label for="branch">Branch</label>
+            <select id="branch" name="branch" required>
+                <option value="">Select Branch</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="CSM">CSM</option>
+                <option value="Mech">Mech</option>
+                <option value="Civil">Civil</option>
+                <option value="CSC">CSC</option>
+            </select>
+
+            <label for="year">Year</label>
+            <select id="year" name="year" required>
+                <option value="">Select Year</option>
+                <option value="1st">1st Year</option>
+                <option value="2nd">2nd Year</option>
+                <option value="3rd">3rd Year</option>
+                <option value="4th">4th Year</option>
+            </select>
+
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
+            <span id="passwordError" class="error"></span>
+
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{{ url_for('student_login') }}">Login here</a></p>
+    </div>
+
+    <script>
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            let passwordField = document.getElementById("password");
+            let eyeIcon = document.getElementById("togglePassword");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        });
+
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            let isValid = true;
+
+            // Validate Admission Number (Only 4-digit number)
+            let admission = document.getElementById("admission").value;
+            if (!/^\d{4}$/.test(admission)) {
+                document.getElementById("admissionError").innerText = "Admission number must be exactly 4 digits.";
+                isValid = false;
+            } else {
+                document.getElementById("admissionError").innerText = "";
+            }
+
+            // Validate Phone Number (Must be exactly 10 digits)
+            let phone = document.getElementById("phone").value;
+            if (!/^\d{10}$/.test(phone)) {
+                document.getElementById("phoneError").innerText = "Phone number must be exactly 10 digits.";
+                isValid = false;
+            } else {
+                document.getElementById("phoneError").innerText = "";
+            }
+
+            // Validate Password (Minimum 8 characters, must contain letters, numbers, and special characters)
+            let password = document.getElementById("password").value;
+            let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                document.getElementById("passwordError").innerText = "Password must be at least 8 characters and include letters, numbers, and a special character.";
+                isValid = false;
+            } else {
+                document.getElementById("passwordError").innerText = "";
+            }
+
+            // Prevent form submission if any validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+</body>
+</html>

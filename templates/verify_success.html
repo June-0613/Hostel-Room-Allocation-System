@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verification Success</title>
+    <style>
+        body { text-align: center; padding-top: 100px; font-family: Arial, sans-serif; background-color: #e0ffe0; }
+        .container { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
+        a { text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- templates/verify_success.html -->
+        <h1>Email Verified!</h1>
+        <p>Your account is now active. <a href="{{ url_for('student_login') }}">Log in here</a>.</p>
+    </div>
+</body>
+</html>

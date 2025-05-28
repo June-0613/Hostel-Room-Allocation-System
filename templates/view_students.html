@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #1b3b36;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00bcd4;
+        }
+        
+        h2, h3, h4 {
+            color: #333;
+        }
+
+        .year-section {
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.08);
+        }
+
+        .branch-section {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+
+    <header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('adm_dash') }}">Dashboard</li>
+            <li><a href="{{ url_for('view_students') }}">View Students</a></li>
+            <li><a href="{{ url_for('adm_rooms') }}">Rooms</a></li>
+            <li><a href="{{ url_for('view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('adm_rc') }}">Manage Requests</a></li>
+            <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
+            <li><a href="{{ url_for('adm_upload') }}">Upload CSV</a></li>
+            <li><a href="{{ url_for('adm_logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+</head>
+<body>
+
+    <h2>Registered Students</h2>
+
+    {% for year, branches in grouped_students.items() %}
+    <div class="year-section">
+        <h3>Year: {{ year }}</h3>
+
+        {% for branch, students in branches.items() %}
+        <div class="branch-section">
+            <h4>Branch: {{ branch }}</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.rollno }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.phone }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+</body>
+</html>

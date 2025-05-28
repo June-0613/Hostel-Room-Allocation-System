@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Change Requests</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f1f8e9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #33691e;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #aed581;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #558b2f;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            border: 1px solid #cfd8dc;
+            text-align: center;
+        }
+
+        th {
+            background-color: #8bc34a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fbe7;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .accept-btn {
+            background-color: #388e3c;
+            color: white;
+        }
+
+        .accept-btn:hover {
+            background-color: #2e7d32;
+        }
+
+        .reject-btn {
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('adm_dash') }}">Dashboard</li>
+            <li><a href="{{ url_for('view_students') }}">View Students</a></li>
+            <li><a href="{{ url_for('adm_rooms') }}">Rooms</a></li>
+            <li><a href="{{ url_for('view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('adm_rc') }}">Manage Requests</a></li>
+            <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
+            <li><a href="{{ url_for('adm_upload') }}">Upload CSV</a></li>
+            <li><a href="{{ url_for('adm_logout') }}">Logout</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Student Room Change Requests</h2>
+
+    {% if requests %}
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Current Room</th>
+                <th>Requested Room</th>
+                <th>Reason</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr>
+                <td>{{ req.name }}</td>
+                <td>{{ req.room_number }}</td>
+                <td>{{ req.desired_room }}</td>
+                <td>{{ req.reason or '—' }}</td>
+                <td>
+                    <form action="{{ url_for('adm_rc_action', request_id=req.id, action='approve') }}" method="POST" style="display:inline;">
+                        <button class="accept-btn" type="submit">Accept</button>
+                    </form>
+                    <form action="{{ url_for('adm_rc_action', request_id=req.id, action='reject') }}" method="POST" style="display:inline;">
+                        <button class="reject-btn" type="submit">Reject</button>
+                    </form>
+                    {% else %}
+                        <em>{{ req.status|capitalize }}</em>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p style="text-align:center; color: #777;">No change room requests at the moment.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h2 { text-align: center; }
+        ul { list-style-type: none; padding: 0; max-width: 600px; margin: auto; }
+        li { background: white; margin: 10px 0; padding: 15px; border-left: 5px solid #007bff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h2>Notifications</h2>
+    <ul>
+        {% for note in notifications %}
+            <li><strong>{{ note.date }}</strong> - {{ note.message }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

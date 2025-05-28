@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Allocation</title>
+    <link rel="stylesheet" href="style2.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .hero {
+            padding: 50px;
+            background: #007bff;
+            color: white;
+        }
+        .blocks {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px;
+        }
+        .block {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .block h3 {
+            color: #2c3e50;
+        }
+        .floor-layout {
+            display: grid;
+            grid-template-columns: repeat(7, 50px);
+            gap: 4px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        .room, .washroom, .storeroom, .steps, .open-space {
+            padding: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .room { background: #28a745; color: white; }
+        .washroom { background: #dc3545; color: white; }
+        .storeroom { background: #ffc107; color: black; }
+        .steps { background: #6c757d; color: white; }
+        .open-space { background: transparent; grid-column: span 5; height: 10px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hostel Room Allocation System</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}" >Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="blocks">
+        <script>
+            const blocks = ['A', 'B', 'C'];
+            document.write(blocks.map(block => `
+                <div class="block">
+                    <h3>Block ${block}</h3>
+                    ${[1, 2, 3].map(floor => `
+                        <h4>Floor ${floor}</h4>
+                        <div class="floor-layout">
+                            <div class="washroom">W</div>
+                            <div class="room">6</div>
+                            <div class="room">7</div>
+                            <div class="room">8</div>
+                            <div class="room">9</div>
+                            <div class="room">10</div>
+                            <div class="storeroom">Hall</div>
+                            <div class="room">5</div>
+                            <div class="open-space"></div>
+                            <div class="room">11</div>
+                            <div class="room">4</div>
+                            <div class="open-space"></div>
+                            <div class="room">12</div>
+                            <div class="room">3</div>
+                            <div class="open-space"></div>
+                            <div class="room">13</div>
+                            <div class="room">2</div>
+                            <div class="open-space"></div>
+                            <div class="room">14</div>
+                            <div class="room">1</div>
+                            <div class="open-space"></div>
+                            <div class="room">15</div>
+                            <div class="steps">D</div>
+                            <div class="room">20</div>
+                            <div class="room">19</div>
+                            <div class="room">18</div>
+                            <div class="room">17</div>
+                            <div class="room">16</div>
+                            <div class="washroom">W</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join(''));
+        </script>
+    </section>
+</body>
+</html>

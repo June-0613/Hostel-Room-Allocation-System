@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #comments {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .feedback-item {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .feedback-item strong {
+            color: #007bff;
+        }
+        .feedback-date {
+            color: #666;
+            font-size: 0.8em;
+            display: block;
+            margin-top: 5px;
+        }
+        #older-feedbacks {
+            display: none;
+        }
+        .badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <section id="comments">
+        <h2>Student Feedback</h2>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h3>Leave Your Feedback</h3>
+        <form method="POST" action="{{ url_for('feedbacks') }}">
+            {% if 'student' not in session %}
+            <input type="text" name="name" placeholder="Your Name (optional)" value="{{ request.form.name if request.form.name }}">
+            {% endif %}
+            <textarea name="comment" rows="4" placeholder="Your feedback..." required>{{ request.form.comment if request.form.comment }}</textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+
+        <h3>Recent Feedback</h3>
+        <div id="recent-feedbacks">
+            {% for feedback in recent_feedbacks %}
+            <div class="feedback-item">
+                <strong>{{ feedback.display_name }}</strong>
+                {% if feedback.user_type == 'Student' %}
+                <span class="badge">Verified Student</span>
+                {% endif %}
+                <p>{{ feedback.feedback_text }}</p>
+                <span class="feedback-date">
+                    {% if feedback.submitted_on %}
+                        {{ feedback.submitted_on.strftime('%b %d, %Y at %I:%M %p') }}
+                    {% else %}
+                        Date not available
+                    {% endif %}
+                </span>
+            </div>
+            {% else %}
+            <p>No feedback yet. Be the first to share!</p>
+            {% endfor %}
+        </div>
+
+        {% if older_feedbacks %}
+        <div id="older-feedbacks">
+            {% for feedback in older_feedbacks %}
+            <div class="feedback-item">
+                <strong>{{ feedback.display_name }}</strong>
+                {% if feedback.user_type == 'Student' %}
+                <span class="badge">Verified Student</span>
+                {% endif %}
+                <p>{{ feedback.feedback_text }}</p>
+                <span class="feedback-date">
+                    {% if feedback.submitted_on %}
+                        {{ feedback.submitted_on.strftime('%b %d, %Y at %I:%M %p') }}
+                    {% else %}
+                        Date not available
+                    {% endif %}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+        <button onclick="toggleOlderFeedbacks()" id="show-more-btn">Show More Feedback</button>
+        {% endif %}
+    </section>
+
+    <script>
+        function toggleOlderFeedbacks() {
+            const olderFeedbacks = document.getElementById('older-feedbacks');
+            const btn = document.getElementById('show-more-btn');
+            
+            if (olderFeedbacks.style.display === 'none' || !olderFeedbacks.style.display) {
+                olderFeedbacks.style.display = 'block';
+                btn.textContent = 'Show Less';
+            } else {
+                olderFeedbacks.style.display = 'none';
+                btn.textContent = 'Show More';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #1b3b36;
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00bcd4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1b3b36;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            line-height: 1.8;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .info strong {
+            color: #1b3b36;
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            display: block;
+            width: 100%;
+            background-color: #d9534f;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+
+<header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('adm_dash') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('view_students') }}">View Students</a></li>
+            <li><a href="{{ url_for('adm_rooms') }}">Rooms</a></li>
+            <li><a href="{{ url_for('view_applications') }}">Applications</a></li>
+            <li><a href="{{ url_for('adm_rc') }}">Manage Requests</a></li>
+            <li><a href="{{ url_for('add_admin') }}">Add Admin</a></li>
+            <li><a href="{{ url_for('adm_upload') }}">Upload CSV</a></li>
+            <li><a href="{{ url_for('adm_logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+    
+</head>
+<body>
+<div class="container">
+    <h2>Welcome, {{ admin.name }}</h2>
+    <div class="info">
+        <p><strong>Email:</strong> {{ admin.email }}</p>
+        <p><strong>Phone:</strong> {{ admin.phone }}</p>
+        <p><strong>Designation:</strong> Hostel Admin</p>
+    </div>
+</div>
